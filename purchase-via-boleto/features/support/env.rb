@@ -6,12 +6,8 @@ require 'site_prism'
 require 'rspec'
 
 Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app,
-        :browser => :chrome,
-        :desired_capabilities => Selenium::WebDriver::Remote::Capabilities.chrome(
-            'chromeOptions' => {'args' => [ "--start-maximized" ]}
-            ))
-    # If more drivers are required, they can be set in here
+    browser = (ENV['browser'] || 'chrome').to_sym
+    Capybara::Selenium::Driver.new(app, browser: browser)
 end
 
 Capybara.default_driver = :selenium
